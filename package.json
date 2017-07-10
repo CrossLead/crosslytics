@@ -1,0 +1,51 @@
+{
+  "name": "crosslytics",
+  "version": "0.0.0",
+  "description": "crosslytics",
+  "license": "Apache-2.0",
+  "repository": "",
+  "author": "",
+  "keywords": [
+    ""
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "clean": "rimraf lib && rimraf coverage && rimraf .nyc_output && rimraf lib_test",
+    "prettier": "prettier --write \"{src,test}/**/*.ts\"",
+    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "commitmsg": "validate-commit-msg",
+    "prepublish": "npm run build",
+    "prebuild": "npm run clean && npm run prettier && npm run lint && echo Using TypeScript && tsc --version",
+    "build": "tsc --pretty",
+    "test": "npm run clean && tsc -p tsconfig.test.json --pretty && nyc --exclude \"**/*-spec.js\" ava \"**/*-spec.js\" --verbose",
+    "coverage": "nyc report --reporter=lcov --reporter=text --reporter=html",
+    "watch": "npm run build -- --watch",
+    "watch:test": "npm run test -- --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^7.0.0",
+    "ava": "^0.20.0",
+    "coveralls": "^2.0.0",
+    "husky": "^0.14.3",
+    "nyc": "^10.0.0",
+    "prettier": "^1.5.2",
+    "rimraf": "^2.0.0",
+    "tslint": "^5.0.0",
+    "tslint-config-prettier": "^1.1.0",
+    "typescript": "^2.0.0",
+    "validate-commit-msg": "^2.12.2"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "ava": {
+    "require": [
+      "babel-register"
+    ]
+  }
+}
