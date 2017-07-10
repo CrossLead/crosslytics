@@ -1,9 +1,12 @@
 {
   "name": "crosslytics",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "crosslytics",
   "license": "Apache-2.0",
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CrossLead/crosslytics.git"
+  },
   "author": "",
   "keywords": [
     ""
@@ -24,17 +27,20 @@
     "test": "npm run clean && tsc -p tsconfig.test.json --pretty && nyc --exclude \"**/*-spec.js\" ava \"**/*-spec.js\" --verbose",
     "coverage": "nyc report --reporter=lcov --reporter=text --reporter=html",
     "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch"
+    "watch:test": "npm run test -- --watch",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^7.0.0",
     "ava": "^0.20.0",
     "coveralls": "^2.0.0",
+    "github-post-release": "^1.7.1",
     "husky": "^0.14.3",
     "nyc": "^10.0.0",
     "prettier": "^1.5.2",
     "rimraf": "^2.0.0",
+    "semantic-release": "^6.3.6",
     "tslint": "^5.0.0",
     "tslint-config-prettier": "^1.1.0",
     "typescript": "^2.0.0",
@@ -47,5 +53,11 @@
     "require": [
       "babel-register"
     ]
+  },
+  "release": {
+    "generateNotes": "github-post-release"
+  },
+  "publishConfig": {
+    "tag": "dev"
   }
 }
