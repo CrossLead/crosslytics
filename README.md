@@ -1,4 +1,5 @@
-# Crosslytics [![Build Status](https://travis-ci.org/CrossLead/crosslytics.svg?branch=master)](https://travis-ci.org/CrossLead/crosslytics.svg?branch=master)
+# Crosslytics
+[![Build Status](https://travis-ci.org/CrossLead/crosslytics.svg?branch=master)](https://travis-ci.org/CrossLead/crosslytics.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/CrossLead/crosslytics/badge.svg?branch=master)](https://coveralls.io/github/CrossLead/crosslytics?branch=master)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 

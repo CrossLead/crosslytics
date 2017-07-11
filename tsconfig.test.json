@@ -9,6 +9,7 @@
     "inlineSourceMap": true
   },
   "include": [
-    "test/**/*"
+    "**/*.spec.ts",
+    "**/*.e2e.ts"
   ]
 }
