@@ -6,8 +6,9 @@
     "lib": [
       "esnext"
     ],
-    "target": "es2015",
+    "target": "es6",
     "noImplicitAny": true,
+    "strictNullChecks": true,
     "outDir": "./lib",
     "preserveConstEnums": true,
     "removeComments": true,
