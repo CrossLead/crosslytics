@@ -3,28 +3,71 @@
 [![Coverage Status](https://coveralls.io/repos/github/CrossLead/crosslytics/badge.svg?branch=master)](https://coveralls.io/github/CrossLead/crosslytics?branch=master)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# Using this module in other modules
+# Usage
 
-Here is a quick example of how this module can be used in other modules. The [TypeScript Module Resolution Logic](https://www.typescriptlang.org/docs/handbook/module-resolution.html) makes it quite easy. The file `src/index.ts` is a [barrel](https://basarat.gitbooks.io/typescript/content/docs/tips/barrel.html) that re-exports selected exports from other files. The _package.json_ file contains `main` attribute that points to the generated `lib/index.js` file and `typings` attribute that points to the generated `lib/index.d.ts` file.
-
-> If you are planning to have code in multiple files (which is quite natural for a NodeJS module) that users can import, make sure you update `src/index.ts` file appropriately.
-
-Now assuming you have published this amazing module to _npm_ with the name `my-amazing-lib`, and installed it in the module in which you need it -
-
-- To use the `Greeter` class in a TypeScript file -
-
+## Isomorphic/Do-these-once!
+Define some events in your library code:
 ```ts
-import { Greeter } from "my-amazing-lib";
+// events.ts
+type DashboardPanelEventArgs = {
+  'Panel ID': string,
+  'Panel Type'?: number,
+  'Panel Name'?: string
+};
 
-const greeter = new Greeter("World!");
-greeter.greet();
+export class DashboardPanelCreated extends TrackedEvent<DashboardPanelEventArgs> {
+  readonly name = 'DashboardPanel Created';
+  readonly category = 'Dashboard';
+  readonly argPriority: (keyof DashboardPanelEventArgs)[] = [
+    'Panel ID',
+    'Panel Type',
+    'Panel Name'
+  ];
+}
+```
+## Server-side
+### Node.js with [Express](https://expressjs.com/)
+
+Use middleware to setup trackers in your application code:
+```ts
+// server.ts
+import * as express from 'express';
+import { Crosslytics, Identity } from 'crosslytics';
+import { GoogleAnalyticsTracker } from 'crosslytics-node-google-analytics-tracker';
+// Other trackers as desired, e.g.
+// import { IntercomTracker } from 'crosslytics-node-intercom-tracker';
+
+const app = express();
+app.use((req: Request, res: Response, next: NextFunction) => {
+  // Store a reference to use later
+  req.telemetry = new Crosslytics();
+
+  const gaTracker = new GoogleAnalyticsTracker('UA-12345678-9');
+  // Set current user if you know who it is
+  gaTracker.identify({userId: ''});
+  req.telemetry.trackers.set(gaTracker.id, gaTracker);
+
+  // Add more trackers as desired
+  // const intercomTracker = new IntercomTracker('token');
+  // req.telemetry.trackers.set('token', intercomTracker);
+  next();
+});
 ```
 
-- To use the `Greeter` class in a JavaScript file -
-
-```js
-const Greeter = require('my-amazing-lib').Greeter;
-
-const greeter = new Greeter('World!');
-greeter.greet();
+Report an event to all trackers using a single call:
+```ts
+// dashboard.controller.ts
+import { DashboardPanelCreated } from './events';
+app.route('panel').post((req: Request, res: Response, next: NextFunction) => {
+  ... // App stuff
+  
+  const ev = new DashboardPanelCreated({
+    'Panel ID': '123456',
+    'Panel Name': 'Test Panel'
+  });
+  req.telemetry.track(ev); // Wait if you want
+});
 ```
+
+## Client-side
+_TBD_
