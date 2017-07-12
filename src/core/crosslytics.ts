@@ -25,6 +25,6 @@ export class Crosslytics {
   }
 
   public async track<T>(event: TrackedEvent<T>) {
-    return this.trackers.map(t => t.track(this.identity, event));
+    return this.trackers.map(t => t.track(event));
   }
 }

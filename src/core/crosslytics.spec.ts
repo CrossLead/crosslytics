@@ -16,7 +16,10 @@ class TestEvent extends TrackedEvent<TestEventArgs> {
 }
 
 class TestTracker implements Tracker {
-  public track<T>(identity: Identity, event: TrackedEvent<T>) {
+  public identify(identity: Identity) {
+    return;
+  }
+  public track<T>(event: TrackedEvent<T>) {
     return Promise.resolve();
   }
 }

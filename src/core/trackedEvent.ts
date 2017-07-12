@@ -29,7 +29,6 @@ export abstract class TrackedEvent<T> {
    */
   public abstract readonly name: string;
   public abstract readonly category: string;
-  public organizationId: string;
 
   /**
    * Many trackers only support a limited number of arguments. For example,
