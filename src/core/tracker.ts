@@ -6,6 +6,7 @@ import { TrackedEvent } from './trackedEvent';
  * that ultimately receives your `TrackedEvent`s.
  */
 export interface Tracker {
+  id: string;
   identify(identity: Identity): void;
   track<T>(event: TrackedEvent<T>): Promise<void>;
 }
