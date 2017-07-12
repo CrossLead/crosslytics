@@ -1,4 +1,4 @@
-import { Value } from "./value";
+import { Value } from './value';
 
 /**
  * A user action. Logically equivalent to an Event in the Segment spec.

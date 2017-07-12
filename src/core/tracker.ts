@@ -1,5 +1,5 @@
-import { Identity } from "./identity";
-import { TrackedEvent } from "./trackedEvent";
+import { Identity } from './identity';
+import { TrackedEvent } from './trackedEvent';
 
 /**
  * A Tracker is a 3rd party analytics service such as Google Analytics or Intercom

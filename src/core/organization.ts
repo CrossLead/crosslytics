@@ -1,4 +1,4 @@
-import { Value } from "./value";
+import { Value } from './value';
 
 /**
  * A group of users. Logically equivalent to a Group in the Segment spec.

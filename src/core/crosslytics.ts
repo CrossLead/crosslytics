@@ -1,6 +1,6 @@
-import { Identity } from "./identity";
-import { TrackedEvent } from "./trackedEvent";
-import { Tracker } from "./tracker";
+import { Identity } from './identity';
+import { TrackedEvent } from './trackedEvent';
+import { Tracker } from './tracker';
 
 /**
  * Main API entry point
@@ -10,7 +10,7 @@ export class Crosslytics {
 
   public readonly trackers = new Array<Tracker>();
   public registerTracker(tracker: Tracker) {
-    if (~this.trackers.indexOf(tracker)) {
+    if (this.trackers.indexOf(tracker) >= 0) {
       return;
     }
 
@@ -19,7 +19,7 @@ export class Crosslytics {
 
   public deregisterTracker(tracker: Tracker) {
     const index = this.trackers.indexOf(tracker);
-    if (~index) {
+    if (index >= 0) {
       this.trackers.splice(index, 1);
     }
   }

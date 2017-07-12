@@ -1,5 +1,5 @@
-import { Organization } from "./organization";
-import { Value } from "./value";
+import { Organization } from './organization';
+import { Value } from './value';
 
 /**
  * A user that you're tracking. Logically equivalent to an Identity in the Segment spec.

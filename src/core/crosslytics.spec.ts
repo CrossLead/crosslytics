@@ -1,17 +1,17 @@
-import test from "ava";
-import { Crosslytics } from "./crosslytics";
-import { TrackedEvent } from "./trackedEvent";
-import { Tracker } from "./tracker";
-import { Identity } from "./identity";
+import test from 'ava';
+import { Crosslytics } from './crosslytics';
+import { Identity } from './identity';
+import { TrackedEvent } from './trackedEvent';
+import { Tracker } from './tracker';
 
-type TestEventArgs = {
-  "Color": string;
-};
+interface TestEventArgs {
+  'Color': string;
+}
 
 class TestEvent extends TrackedEvent<TestEventArgs> {
-  name = "Test Event";
-  category = "Test Category";
-  organizationId = "abc123";
+  name = 'Test Event';
+  category = 'Test Category';
+  organizationId = 'abc123';
   argPriority = new Array<keyof TestEventArgs>();
 }
 
@@ -21,7 +21,7 @@ class TestTracker implements Tracker {
   }
 }
 
-test("Should only register a Tracker once", t => {
+test('Should only register a Tracker once', t => {
   const cl = new Crosslytics();
   const tracker = new TestTracker();
   cl.registerTracker(tracker);
@@ -29,7 +29,7 @@ test("Should only register a Tracker once", t => {
   t.is(cl.trackers.length, 1);
 });
 
-test("Should deregister a Tracker", t => {
+test('Should deregister a Tracker', t => {
   const cl = new Crosslytics();
   const trackerA = new TestTracker();
   const trackerB = new TestTracker();

@@ -22,8 +22,8 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib && rimraf coverage && rimraf .nyc_output && rimraf lib_test",
-    "prettier": "prettier --write \"src/**/*.ts\"",
-    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "prettier": "prettier --single-quote true --write \"src/**/*.ts\"",
+    "lint": "tslint --format verbose \"src/**/!(*.spec|*.e2e).ts\"",
     "commitmsg": "validate-commit-msg",
     "prepublish": "npm run build",
     "prebuild": "npm run clean && npm run prettier && npm run lint && echo Using TypeScript && tsc --version",
@@ -67,6 +67,9 @@
     "exclude": [
       "**/*.{spec,e2e}.js"
     ]
+  },
+  "prettier": {
+    "singleQuote": true
   },
   "release": {
     "generateNotes": "github-post-release"
