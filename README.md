@@ -5,7 +5,7 @@
 
 # Usage
 
-## Isomorphic/Do-these-once!
+## Isomorphic/Only have to do these once!
 Define some events in your library code:
 ```ts
 // events.ts
