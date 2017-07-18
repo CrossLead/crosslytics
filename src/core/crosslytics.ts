@@ -11,10 +11,11 @@ export class Crosslytics {
   public async track<T>(event: TrackedEvent<T>) {
     const promises = [];
 
-    let next = this.trackers.values().next();
+    const iterable = this.trackers.values();
+    let next = iterable.next();
     while (!next.done) {
       promises.push(next.value.track(event));
-      next = this.trackers.values().next();
+      next = iterable.next();
     }
 
     return Promise.all(promises);

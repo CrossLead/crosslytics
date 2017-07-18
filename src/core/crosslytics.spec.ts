@@ -9,18 +9,21 @@ interface TestEventArgs {
 }
 
 class TestEvent extends TrackedEvent<TestEventArgs> {
-  name = 'Test Event';
-  category = 'Test Category';
-  organizationId = 'abc123';
-  argPriority = new Array<keyof TestEventArgs>();
+  public name = 'Test Event';
+  public category = 'Test Category';
+  public organizationId = 'abc123';
+  public argPriority = new Array<keyof TestEventArgs>();
 }
 
+// tslint:disable-next-line:max-classes-per-file
 class TestTracker implements Tracker {
+  public trackedCalled = 0;
   constructor(public id: string) {}
   public identify(identity: Identity) {
     return;
   }
   public track<T>(event: TrackedEvent<T>) {
+    this.trackedCalled++;
     return Promise.resolve();
   }
 }
@@ -52,4 +55,20 @@ test('Should deregister a Tracker once', t => {
   cl.trackers.delete(trackerA.id);
   cl.trackers.delete(trackerA.id);
   t.is(cl.trackers.size, 1);
+});
+
+test('Should call track() once per Tracker', async t => {
+  const cl = new Crosslytics();
+  const trackerA = new TestTracker('test');
+  const trackerB = new TestTracker('test2');
+  const trackerC = new TestTracker('test3');
+  cl.trackers.set(trackerA.id, trackerA);
+  cl.trackers.set(trackerB.id, trackerB);
+  cl.trackers.set(trackerC.id, trackerC);
+  t.is(cl.trackers.size, 3);
+  const ev = new TestEvent({ 'Color': 'Green' });
+  await cl.track(ev);
+  t.is(trackerA.trackedCalled, 1);
+  t.is(trackerB.trackedCalled, 1);
+  t.is(trackerC.trackedCalled, 1);
 });

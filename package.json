@@ -23,7 +23,7 @@
   "scripts": {
     "clean": "rimraf lib && rimraf coverage && rimraf .nyc_output && rimraf lib_test",
     "prettier": "prettier --single-quote true --write \"src/**/*.ts\"",
-    "lint": "tslint --format verbose \"src/**/!(*.spec|*.e2e).ts\"",
+    "lint": "tslint --format verbose \"src/**/*.ts\"",
     "commitmsg": "validate-commit-msg",
     "prepublish": "npm run build",
     "prebuild": "npm run clean && npm run prettier && npm run lint && echo Using TypeScript && tsc --version",
