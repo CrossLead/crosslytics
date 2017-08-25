@@ -1,5 +1,3 @@
-import { Value } from './value';
-
 /**
  * A user action. Logically equivalent to an Event in the Segment spec.
  * Pass in a type defining your event's arguments.

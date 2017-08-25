@@ -1,4 +1,5 @@
 import { Identity } from './identity';
+import { Page } from './page';
 import { TrackedEvent } from './trackedEvent';
 
 /**
@@ -9,4 +10,5 @@ export interface Tracker {
   id: string;
   identify(identity: Identity): void;
   track<T>(event: TrackedEvent<T>): Promise<void>;
+  page(page: Page): Promise<void>;
 }
