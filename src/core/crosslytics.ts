@@ -9,31 +9,33 @@ import { Tracker } from './tracker';
 export class Crosslytics {
   public readonly trackers = new Map<string, Tracker>();
 
+  /**
+   * Helper method equivalent to calling .track() on all registered trackers
+   */
   public async track<T>(event: TrackedEvent<T>) {
-    const promises = [];
+    const promises = Array
+      .from(this.trackers.values())
+      .map(t => t.track(event));
+    return Promise.all(promises);
+  }
 
-    const iterable = this.trackers.values();
-    let next = iterable.next();
-    while (!next.done) {
-      promises.push(next.value.track(event));
-      next = iterable.next();
-    }
+  /**
+   * Helper method equivalent to calling .page() on all registered trackers
+   */
+  public async page(page: Page | string) {
+    const p: Page = typeof page === 'string' ? { url: page } : page;
+
+    const promises = Array
+      .from(this.trackers.values())
+      .map(t => t.page(p));
 
     return Promise.all(promises);
   }
 
-  public async page(page: Page | string) {
-    const p: Page = typeof page === 'string' ? { url: page } : page;
-
-    const promises = [];
-
-    const iterable = this.trackers.values();
-    let next = iterable.next();
-    while (!next.done) {
-      promises.push(next.value.page(p));
-      next = iterable.next();
-    }
-
-    return Promise.all(promises);
+  /**
+   * Helper method equivalent to calling .identify() on all registered trackers
+   */
+  public identify(identity: Identity): void {
+    Array.from(this.trackers.values()).forEach(t => t.identify(identity));
   }
 }

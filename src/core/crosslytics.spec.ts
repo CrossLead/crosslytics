@@ -18,10 +18,12 @@ class TestEvent extends TrackedEvent<TestEventArgs> {
 
 // tslint:disable-next-line:max-classes-per-file
 class TestTracker implements Tracker {
+  public identifyCalled = 0;
   public trackedCalled = 0;
   public pageCalled = 0;
   constructor(public id: string) {}
   public identify(identity: Identity) {
+    this.identifyCalled++;
     return;
   }
   public track<T>(event: TrackedEvent<T>) {
@@ -61,6 +63,21 @@ test('Should deregister a Tracker once', t => {
   cl.trackers.delete(trackerA.id);
   cl.trackers.delete(trackerA.id);
   t.is(cl.trackers.size, 1);
+});
+
+test('Should call identify() once per Tracker', async t => {
+  const cl = new Crosslytics();
+  const trackerA = new TestTracker('test');
+  const trackerB = new TestTracker('test2');
+  const trackerC = new TestTracker('test3');
+  cl.trackers.set(trackerA.id, trackerA);
+  cl.trackers.set(trackerB.id, trackerB);
+  cl.trackers.set(trackerC.id, trackerC);
+  t.is(cl.trackers.size, 3);
+  cl.identify({ userId: 'uid1' });
+  t.is(trackerA.identifyCalled, 1);
+  t.is(trackerB.identifyCalled, 1);
+  t.is(trackerC.identifyCalled, 1);
 });
 
 test('Should call track() once per Tracker', async t => {
