@@ -1,7 +1,7 @@
 {
   "name": "crosslytics",
   "version": "0.0.0-development",
-  "description": "crosslytics",
+  "description": "Universal, isomorphic analytics API with pluggable trackers",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
