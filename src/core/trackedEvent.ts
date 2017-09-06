@@ -20,7 +20,7 @@
  * }
  * @see {@link https://segment.com/docs/spec/track/#event}
  */
-export abstract class TrackedEvent<T> {
+export abstract class TrackedEvent<T = {}> {
   /**
    * We suggest human readable names consisting of noun + past tense verb.
    * @see {@link https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/}
@@ -30,7 +30,7 @@ export abstract class TrackedEvent<T> {
 
   /**
    * Many trackers only support a limited number of arguments. For example,
-   * Google Analytics only supports 2: a string Event Label and an integer 
+   * Google Analytics only supports 2: a string Event Label and an integer
    * Event Value. By defining a priority to your arguments here, trackers
    * will submit the highest priority args satisfying their constraints. In
    * the Google Analytics case, the tracker will submit the first string match
