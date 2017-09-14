@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/CrossLead/crosslytics/badge.svg?branch=master)](https://coveralls.io/github/CrossLead/crosslytics?branch=master)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Tired of writing repetitive code to send the same analytics data to all your different tracking services? Or formatting the same data slightly differently for each service, like using ["eventAction"](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventAction) for Google Analytics but ["event_name"](https://developers.intercom.com/reference#event-model) for Intercom?
+Tired of writing repetitive code to send the same analytics data to all your different tracking services? Or formatting the same data slightly differently for each service, like using [`eventAction`](https://developers.google.com/analytics/devguides/collection/analyticsjs/field-reference#eventAction) for Google Analytics but [`event_name`](https://developers.intercom.com/reference#event-model) for Intercom?
 
 Use Crosslytics for a unified event definition and analytics reporting API: Define events once and report them to all your analytics services with a single call. We've also abstracted the services themselves into a pluggable [Tracker](#trackers) architecture so you can use only the services you need and quickly add support for new ones.
 
@@ -21,7 +21,7 @@ type DashboardPanelEventArgs = {
   'Panel Name'?: string
 };
 
-export class DashboardPanelCreated extends TrackedEvent<DashboardPanelEventArgs> {
+export class DashboardPanelCreated implements TrackedEvent<DashboardPanelEventArgs> {
   readonly name = 'DashboardPanel Created';
   readonly category = 'Dashboard';
   readonly argPriority: (keyof DashboardPanelEventArgs)[] = [

@@ -9,11 +9,11 @@ interface TestEventArgs {
   'Color': string;
 }
 
-class TestEvent extends TrackedEvent<TestEventArgs> {
+class TestEvent implements TrackedEvent<TestEventArgs> {
   public name = 'Test Event';
   public category = 'Test Category';
-  public organizationId = 'abc123';
-  public argPriority = new Array<keyof TestEventArgs>();
+  public argPriority: Array<keyof TestEventArgs> = ['Color'];
+  constructor(public args: TestEventArgs) {}
 }
 
 // tslint:disable-next-line:max-classes-per-file

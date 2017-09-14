@@ -13,9 +13,9 @@ export class Crosslytics {
    * Helper method equivalent to calling .track() on all registered trackers
    */
   public async track<T>(event: TrackedEvent<T>) {
-    const promises = Array
-      .from(this.trackers.values())
-      .map(t => t.track(event));
+    const promises = Array.from(this.trackers.values()).map(t =>
+      t.track(event)
+    );
     return Promise.all(promises);
   }
 
@@ -25,9 +25,7 @@ export class Crosslytics {
   public async page(page: Page | string) {
     const p: Page = typeof page === 'string' ? { url: page } : page;
 
-    const promises = Array
-      .from(this.trackers.values())
-      .map(t => t.page(p));
+    const promises = Array.from(this.trackers.values()).map(t => t.page(p));
 
     return Promise.all(promises);
   }

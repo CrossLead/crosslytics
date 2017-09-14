@@ -8,7 +8,7 @@
  *   'Panel Type'?: number,
  *   'Panel Name'?: string
  * };
- * class DashboardPanelCreated extends TrackedEvent<DashboardPanelEventArgs> {
+ * class DashboardPanelCreated implements TrackedEvent<DashboardPanelEventArgs> {
  *   readonly name = 'DashboardPanel Created';
  *   readonly category = 'Dashboard';
  *   readonly argPriority: (keyof DashboardPanelEventArgs)[] = [
@@ -17,16 +17,19 @@
  *     'Panel Name',
  *     'Panel Color'
  *   ];
+ *   constructor(public args: DashboardPanelEventArgs) {};
  * }
  * @see {@link https://segment.com/docs/spec/track/#event}
  */
-export abstract class TrackedEvent<T = {}> {
+export interface TrackedEvent<T = {}> {
   /**
    * We suggest human readable names consisting of noun + past tense verb.
    * @see {@link https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/}
    */
-  public abstract readonly name: string;
-  public abstract readonly category: string;
+  readonly name: string;
+  readonly category: string;
+
+  args: T;
 
   /**
    * Many trackers only support a limited number of arguments. For example,
@@ -36,7 +39,5 @@ export abstract class TrackedEvent<T = {}> {
    * the Google Analytics case, the tracker will submit the first string match
    * as the Label and the first integer match as the Value.
    */
-  public abstract readonly argPriority: Array<keyof T>;
-
-  constructor(public args: T) {}
+  readonly argPriority: Array<keyof T>;
 }
