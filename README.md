@@ -29,6 +29,23 @@ export class DashboardPanelCreated implements TrackedEvent<DashboardPanelEventAr
     'Panel Type',
     'Panel Name'
   ];
+  constructor(public args: DashboardPanelEventArgs) {}
+}
+```
+Note that you don't necessarily have to use classes. You could, for instance, define factories that construct your `TrackedEvent`s:
+```ts
+type DashboardPanelCreated = TrackedEvent<DashboardPanelEventArgs>;
+const makeDashboardPanelCreated = (args: DashboardPanelEventArgs): DashboardPanelCreated => {
+  return {
+    name: 'DashboardPanel Created',
+    category: 'Dashboard',
+    argPriority: [
+        'Panel ID',
+        'Panel Type',
+        'Panel Name'
+    ],
+    args
+  };
 }
 ```
 
