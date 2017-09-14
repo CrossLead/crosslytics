@@ -12,7 +12,7 @@ _Why not use [Segment](https://segment.com/)?_ We didn't want to add another hos
 # Usage
 
 ## Define events
-Define some events by subclassing `TrackedEvent`. Since the Crosslytics library is isomorphic, you only have to do this once. You can then share the same event definitions between your client and server code:
+Define events by implementing the `TrackedEvent` interface. Since the Crosslytics library is isomorphic, you only have to do this once. You can then share the same event definitions between your client and server code:
 ```ts
 // events.ts
 type DashboardPanelEventArgs = {
@@ -152,5 +152,6 @@ export const panelCreated = (panel) => {
   };
 };
 ```
+If you further want to decouple event construction from your action creators, we recommend implementing a factory function to create the events and [dependency injecting](https://en.wikipedia.org/wiki/Dependency_injection) the factory into your action creators. For example, if you're using [`redux-thunk`](https://github.com/gaearon/redux-thunk), you could inject the factory via the [`withExtraArgument()`](https://github.com/gaearon/redux-thunk#injecting-a-custom-argument) method.
 # Trackers
 _Docs coming soon_
