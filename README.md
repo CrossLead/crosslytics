@@ -96,25 +96,13 @@ app.route('panel').post((req: Request, res: Response, next: NextFunction) => {
 
 ## Client-side
 ### [React](https://facebook.github.io/react/) with [Redux](http://redux.js.org/)
-We recommend adding analytics metadata to [Redux Actions](http://redux.js.org/docs/basics/Actions.html). For example, you could include an `action.analytics` property when you want an action to be tracked. This way, you can setup [Redux middleware](http://redux.js.org/docs/advanced/Middleware.html) to report analytics and greatly reduce the amount of tracking code you need to write.
+We recommend you track client-side analytics using [Redux Actions](http://redux.js.org/docs/basics/Actions.html) themselves by adding analytics metadata to your actions. For example, you could include an `action.analytics` property when you want an action to be tracked. This way, you can setup [Redux middleware](http://redux.js.org/docs/advanced/Middleware.html) to automatically report analytics, greatly reducing the amount of tracking code you need to write.
 
-First, do a one-time setup of trackers and create a middleware:
+First, create a middleware to perform event tracking based on action metadata:
 ```ts
 // middleware.ts
 import { Action, Middleware } from 'redux';
-import { Crosslytics, Identity, TrackedEvent } from 'crosslytics';
-import { GoogleAnalyticsTracker } from 'crosslytics-browser-google-analytics-tracker';
-// Other trackers as desired, e.g.
-// import { IntercomTracker } from 'crosslytics-browser-intercom-tracker';
-
-export const crosslytics = new Crosslytics();
-
-const gaTracker = new GoogleAnalyticsTracker('UA-12345678-9');
-crosslytics.trackers.set(gaTracker.id, gaTracker);
-
-// Add more trackers as desired
-// const intercomTracker = new IntercomTracker('token');
-// crosslytics.trackers.set('token', intercomTracker);
+import { Crosslytics, TrackedEvent } from 'crosslytics';
 
 // Create a middleware to use with your Redux store
 export function analyticsMiddleware(crosslytics: Crosslytics): Middleware {
@@ -130,16 +118,29 @@ export function analyticsMiddleware(crosslytics: Crosslytics): Middleware {
 interface TrackableAction<T> extends Action { analytics?: TrackedEvent<T> }
 ```
 
-Then add the middleware to your Redux store (also one-time):
+Then setup your trackers and add the middleware to your Redux store (also one-time):
 ```ts
 // store.ts
 import { createStore, applyMiddleware } from 'redux';
-import { analyticsMiddleware, crosslytics } from './middelware.ts';
+import { analyticsMiddleware } from './middleware.ts';
+import { Crosslytics } from 'crosslytics';
+import { GoogleAnalyticsTracker } from 'crosslytics-browser-google-analytics-tracker';
+// Other trackers as desired, e.g.
+// import { IntercomTracker } from 'crosslytics-browser-intercom-tracker';
+
+export const crosslytics = new Crosslytics();
+
+const gaTracker = new GoogleAnalyticsTracker('UA-12345678-9');
+crosslytics.trackers.set(gaTracker.id, gaTracker);
+
+// Add more trackers as desired
+// const intercomTracker = new IntercomTracker('token');
+// crosslytics.trackers.set('token', intercomTracker);
 
 let store = createStore(
   reducers, // defined elsewhere
   applyMiddleware(
-    analyticsMiddleware
+    analyticsMiddleware(crosslytics)
     // other middleware
   )
 );
