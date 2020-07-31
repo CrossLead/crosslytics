@@ -172,4 +172,19 @@ export const panelCreated = (panel) => {
 ```
 If you further want to decouple event construction from your action creators, we recommend implementing a factory function to create the events and [dependency injecting](https://en.wikipedia.org/wiki/Dependency_injection) the factory into your action creators. For example, if you're using [`redux-thunk`](https://github.com/gaearon/redux-thunk), you could inject the factory via the [`withExtraArgument()`](https://github.com/gaearon/redux-thunk#injecting-a-custom-argument) method.
 # Trackers
-_Docs coming soon_
+## Existing trackers
+[Google Analytics](https://google.com/analytics/)
+- Browser: https://github.com/CrossLead/crosslytics-browser-google-analytics-tracker
+- Server: https://github.com/CrossLead/crosslytics-node-google-analytics-tracker
+
+[Intercom](https://www.intercom.com/):
+- Browser: https://github.com/CrossLead/crosslytics-browser-intercom-tracker
+
+[Pendo](https://www.pendo.io/)
+- Browser: https://github.com/CrossLead/crosslytics-browser-pendo-tracker
+- Server: https://github.com/CrossLead/crosslytics-node-pendo-tracker
+
+## Create your own
+Use our boilerplate templates:
+- Browser: https://github.com/CrossLead/crosslytics-browser-boilerplate-tracker
+- Server: https://github.com/CrossLead/crosslytics-node-boilerplate-tracker
